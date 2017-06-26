@@ -14,13 +14,10 @@ def view_homepage():
 #stories library with fake data for testing purposes
 @app.route('/stories-library')
 def view_storieslibrary():
-    names = ["Sense 3", "How To Get Away With Eating Nutella", "Big Bang Geography", "Nashville Town"]
-    authors = ["Sarah Greilsamer", "Adam Roy", "Justin Li", "Jonathan Veitch"]
-    dates = ["1923", "2458", "1983", "2017"]
-    origins = ["Zimbabwe", "U.S.A.", "Germany", "Australia"]
-    types = ["fable", "fable", "poem", "play"]
-    themes = ["Love, War", "Friendship", "Racism", "Learning"]
-    return render_template('stories-library.html', name=names, author=authors, date=dates, origin=origins, type=types, theme=themes)
+    story_1 = ["Story 1", "Sarah Greilsamer", "1987", "Switzerland", "Fable", "Love"]
+    story_2 = ["Story 2", "Jacques Greilsamer", "1945", "France", "Novel", "Friendship"]
+    story_3 = ["Story 3", "Danielle Greilsamer", "1921", "Belgium", "Play", "Racism"]
+    return render_template('stories-library.html', story_1=story_1, story_2=story_2, story_3=story_3)
 
 #page with training videos
 @app.route('/training-videos')
@@ -41,6 +38,13 @@ def view_faqs():
 #Create classes for story, video and photo
 #Probably going to have to create processing functions
 
+class Story:
+    def __init__(self, title, author, year, origin, type, theme):
+        self.title = title
+        self.author = author
+        self.year = year
+        self.origin = origin
+        self.theme = theme
 
 ###CODE NOT TO BE CHANGED###
 
