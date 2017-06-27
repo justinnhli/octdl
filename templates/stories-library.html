@@ -36,6 +36,7 @@
 							<th class="col-year">Year</th>
 							<th class="col-origin">Origin</th>
 							<th class="col-themes">Themes</th>
+							<th class="col-text">Text</th>
 						</tr>
 					</thead>
 
@@ -43,7 +44,11 @@
 							{% for story in stories %}
 						<tr>
 								{% for attribute in story %}
-									<td>{{ attribute }}</td>
+									{% if "http" in attribute %}
+										<td class="story-link"><a href="{{ attribute }}">Click Here</a></td>
+									{% else %}
+										<td class="simple-story-attribute">{{ attribute }}</td>
+									{% endif %}
 								{% endfor %}
 						</tr>
 							{% endfor %}

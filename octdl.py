@@ -49,6 +49,8 @@ def view_storieslibrary():
     # List of lists
     table = sheet.get_all_values()
     stories = table[1:]
+    # Sort in alphabetical order of title
+    stories.sort(key=lambda story: story[0])
     return render_template('stories-library.html', stories=stories)
 
 
