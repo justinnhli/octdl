@@ -35,27 +35,18 @@
 							<th class="col-author">Author</th>
 							<th class="col-year">Year</th>
 							<th class="col-origin">Origin</th>
-							<th class="col-type">Type</th>
 							<th class="col-themes">Themes</th>
 						</tr>
 					</thead>
 
 					<tbody>
+							{% for story in stories %}
 						<tr>
-							{% for attribute in story_1 %}
-							<td>{{ attribute }}</td>
-							{% endfor %}
+								{% for attribute in story %}
+									<td>{{ attribute }}</td>
+								{% endfor %}
 						</tr>
-						<tr>
-							{% for attribute in story_2 %}
-							<td>{{ attribute }}</td>
 							{% endfor %}
-						</tr>
-						<tr>
-							{% for attribute in story_3 %}
-							<td>{{ attribute }}</td>
-							{% endfor %}
-						</tr>
 					</tbody>
 				</table>
 			</div>

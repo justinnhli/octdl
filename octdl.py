@@ -1,52 +1,105 @@
+# Must be at the beginning of the file
+
+from __future__ import print_function
+
+# FOLLOWING CODE TO USE GOOGLE API AND GSPREAD
+
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+
+
+# STANDARD FLASK IMPORT
+
 from os import chdir
 from os.path import dirname
 
 from flask import Flask, render_template, send_from_directory
 
+# FOLLOWING CODE TO USE GOOGLE API
+
+import httplib2
+import os
+
+from apiclient import discovery
+from oauth2client import client
+from oauth2client import tools
+from oauth2client.file import Storage
+
+
 app = Flask(__name__)
 
+# Creating pages
 
-#home page
+# Home page
 @app.route('/')
 def view_homepage():
     return render_template('home-page.html')
 
-#stories library with fake data for testing purposes
+
+# Stories library with fake data for testing purposes
 @app.route('/stories-library')
 def view_storieslibrary():
-    story_1 = ["Story 1", "Sarah Greilsamer", "1987", "Switzerland", "Fable", "Love"]
-    story_2 = ["Story 2", "Jacques Greilsamer", "1945", "France", "Novel", "Friendship"]
-    story_3 = ["Story 3", "Danielle Greilsamer", "1921", "Belgium", "Play", "Racism"]
-    return render_template('stories-library.html', story_1=story_1, story_2=story_2, story_3=story_3)
+    # Use creds to create a client to interact with the Google Drive API
+    scope = ['https://spreadsheets.google.com/feeds']
+    creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
+    client = gspread.authorize(creds)
+    # Find a workbook by name and open the first sheet
+    sheet = client.open("Stories Library").sheet1
+    # Extract and print all of the values
+    # List of lists
+    table = sheet.get_all_values()
+    stories = table[1:]
+    return render_template('stories-library.html', stories=stories)
 
-#page with training videos
+
+# Page with training videos
 @app.route('/training-videos')
 def view_trainingvideos():
     return render_template('training-videos.html')
 
-#gallery of photos from previous shows
+
+# Gallery of photos from previous shows
 @app.route('/photo-gallery')
 def view_photogallery():
     return render_template('photo-gallery.html')
 
-#page of frequently asked questions
+
+# Page of frequently asked questions
 @app.route('/faqs')
 def view_faqs():
     return render_template('faqs.html')
 
-#FIXME
-#Create classes for story, video and photo
-#Probably going to have to create processing functions
+
+# Classes for each type of object on my website
+
 
 class Story:
-    def __init__(self, title, author, year, origin, type, theme):
+    def __init__(self, title, author, year, origin, themes, text):
         self.title = title
         self.author = author
         self.year = year
         self.origin = origin
-        self.theme = theme
+        self.themes = themes
+        self.text = text
 
-###CODE NOT TO BE CHANGED###
+
+# Exercise should be the name given to the exercise demonstrated in the video
+# The name should be the name which will be displayed on the website
+class Video:
+    def __init__(self, exercise, year):
+        self.exercise = exercise
+        self.year = year
+
+
+# People stands for people in the picture
+class Photo:
+    def __init__(self, year, title, people):
+        self.year = year
+        self.title = title
+        self.people = people
+
+
+# CODE NOT TO BE CHANGED #
 
 @app.route('/css/<file>')
 def view_css(file):
