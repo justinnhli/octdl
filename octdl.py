@@ -11,7 +11,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 # STANDARD FLASK IMPORT
 
 from os import chdir
-from os.path import dirname
+from os.path import dirname, realpath, expanduser
 
 from flask import Flask, render_template, send_from_directory
 
@@ -108,6 +108,6 @@ def view_css(file):
     return send_from_directory('css', file)
 
 if __name__ == '__main__':
-    chdir(dirname(__file__))
+    chdir(dirname(realpath(expanduser(__file__))))
     app.run(debug=True)
 
